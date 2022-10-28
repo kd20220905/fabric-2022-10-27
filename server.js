@@ -19,7 +19,7 @@ wss.on('connection', ws => {
   //固定送最新時間給 Client
   const sendNowTime = setInterval(()=>{
       ws.send(JSON.stringify(dataIns))
-  },100)
+  },1000)
 
   ws.on('message', data => {
       // ws.send(data)
