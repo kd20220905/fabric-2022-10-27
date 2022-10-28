@@ -1,18 +1,31 @@
 //import express 和 ws 套件
 const express = require('express')
+const app = express()
+const cors = require('cors');
+app.use(express.json())
+app.use(cors());
 const SocketServer = require('ws').Server
-
 //指定開啟的 port
 const PORT = process.env.PORT || '3000'
 
 //創建 express 的物件，並綁定及監聽 3000 port ，且設定開啟後在 console 中提示
-const server = express()
+const server = app
     .listen(PORT, () => console.log(`Listening on ${PORT}`))
 
-//將 express 交給 SocketServer 開啟 WebSocket 的服務
+// API
+let host = {
+    host: false
+};
+app.post('/host', (req, res) => {
+    host.host = req.body.host
+    res.send(JSON.stringify(host.host))
+})
+app.get('/checkhost', (req, res) => {
+    res.send(JSON.stringify(host.host))
+})
+//ws
 const wss = new SocketServer({ server })
 let dataIns;
-//當 WebSocket 從外部連結時執行
 wss.on('connection', ws => {
   console.log('Client connected')
 
@@ -33,13 +46,5 @@ wss.on('connection', ws => {
   })
 })
 
-const app = express()
-// const port = process.env.PORT || '3000'
-// app.get('/', (req, res) => {
-//   res.send('Hesdfllo World!')
-// })
 
-// app.listen(port, () => {
-//   console.log(`Example app listening on port ${port}`)
-// })
 module.exports = app
