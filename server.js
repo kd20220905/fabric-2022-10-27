@@ -91,8 +91,8 @@ app.post('/roomChat/:id', (req, res) => {
 app.post('/roomAnswer/:id', (req, res) => {
   for (let i = 0; i < rooms.length; i++) {
     if (rooms[i].roomId === parseInt(req.params.id)) {
-      rooms[i].hasAnswer.push(req.body.hasAnswer)
-      rooms[i].answer.push(req.body.answer)
+      rooms[i].hasAnswer = req.body.hasAnswer
+      rooms[i].answer = req.body.answer
     }
   }
   res.send(rooms)
