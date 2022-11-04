@@ -76,8 +76,8 @@ app.post('/roomChat/:id', (req, res) => {
         rooms[i].chat.push(req.body)
         if(rooms[i].answer === req.body.chat) {
           rooms[i].chat.push({
-            chat: "房間公告",
-            member: req.body.member + "玩家 恭喜答對"
+            chat: req.body.member + "玩家 恭喜答對",
+            member: "房間公告",
           })
           rooms[i].hasAnswer = false
           rooms[i].answer = ""
