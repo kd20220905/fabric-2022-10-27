@@ -88,6 +88,15 @@ app.post('/roomChat/:id', (req, res) => {
     }
     res.send(rooms)
 })
+app.post('/roomAnswer/:id', (req, res) => {
+  for (let i = 0; i < rooms.length; i++) {
+    if (rooms[i].roomId === parseInt(req.params.id)) {
+      rooms[i].hasAnswer.push(req.body.hasAnswer)
+      rooms[i].answer.push(req.body.answer)
+    }
+  }
+  res.send(rooms)
+})
 //ws
 app.ws('/gameRoom/:id', (ws, req, res) => {
     console.log(rooms)
