@@ -70,20 +70,19 @@ app.get('/checkRoom/:id', (req, res) => {
     }
     res.send(JSON.stringify(req.params));
 })
-let host = {
-    host: false
-};
-app.post('/host', (req, res) => {
-    host.host = req.body.host
-    res.send(JSON.stringify(host.host))
-})
-app.get('/checkhost', (req, res) => {
-    res.send(JSON.stringify(host.host))
-})
 app.post('/roomChat/:id', (req, res) => {
     for (let i = 0; i < rooms.length; i++) {
       if (rooms[i].roomId === parseInt(req.params.id)) {
         rooms[i].chat.push(req.body)
+        if(rooms[i].answer === req.body.chat) {
+          rooms[i].chat.push({
+            chat: "房間公告",
+            member: req.body.member + "玩家 恭喜答對"
+          })
+          rooms[i].hasAnswer = false
+          rooms[i].answer = ""
+          console.log(rooms[i])
+        }
       }
     }
     res.send(rooms)
